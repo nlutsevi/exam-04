@@ -49,9 +49,9 @@ void	ft_openpipes(int fd[2], int pipes)
 	{
 		if (close(fd[READ]) == -1)
 			fatal_error();
-		if (close(fd[WRITE]) == -1)
-			fatal_error();
 		if (dup2(fd[WRITE], STDOUT_FILENO) == -1)
+			fatal_error();
+		if (close(fd[WRITE]) == -1)
 			fatal_error();
 	}
 }
@@ -60,11 +60,11 @@ void	ft_closepipes(int fd[2], int pipes)
 {
 	if (pipes)
 	{
+		if (dup2(fd[READ], STDIN_FILENO) == -1)
+			fatal_error();
 		if (close(fd[READ]) == -1)
 			fatal_error();
 		if (close(fd[WRITE]) == -1)
-			fatal_error();
-		if (dup2(fd[READ], STDIN_FILENO) == -1)
 			fatal_error();
 	}
 }
